@@ -1,0 +1,1 @@
+Ch?y file Project1.exe . Sau dó m.n ch?n 1 bài d? test b?ng cách nh?m phím s? t? 1-8 r?i nh?n Enter.
