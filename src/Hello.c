@@ -2,16 +2,17 @@
 #include <stdlib.h>
 #include <string.h>
 #include <ctype.h>
-#define space ' '
 
 void bai1() {
-	printf("Nhap so co 3 chu so:");
-	int n,so1,so2,so3;
-	scanf("%d",&n);
+	int n, so1, so2, so3;
+	do {
+		printf("Nhap so co 3 chu so:");
+		scanf("%d", &n);
+	} while (n<=100||n>=1000);
 	
-	so1 = n % 10;
-	so2 = (n / 10) % 10;
-	so3 = n / 100;
+	so1 = n % 10; // chu so hang don vi
+	so2 = (n / 10) % 10; // chu so hang chuc
+	so3 = n / 100;// chu so hang tram
 	int top, middle,bottom;
 	if (so1 > so2 &&so1>so3)
 		top = so1;
@@ -31,6 +32,32 @@ void bai1() {
 		middle = so2;
 	else if (so3 > so1&&so3 < so2)
 		middle = so3;
+	if (so1 == so2 && so2 == so3)
+		top = middle = bottom=so1;
+	if (so1 == so2 && so1 > so3) {
+		top = middle = so1;
+		bottom = so3;
+	}
+	if (so1 == so2 && so1 < so3) {
+		top =  so3;
+		middle = bottom = so1;
+	}
+	if (so1 == so3 && so1 > so2) {
+		top = middle = so1;
+		bottom = so2;
+	}
+	if (so1 == so3 && so1 < so2) {
+		bottom = middle = so1;
+		top = so2;
+	}
+	if (so3 == so2 && so3 > so1) {
+		top = middle = so3;
+		bottom = so1;
+	}
+	if (so3 == so2 && so3 < so1) {
+		bottom = middle = so3;
+		top = so1;
+	}
 	printf("so sap xep theo thu tu giam dan la:%d%d%d",top,middle,bottom);
 }
 
@@ -42,20 +69,23 @@ void bai2() {
 	scanf("%s", a);
 	for (int i = 0; i < strlen(a); i++)
 	{
-		if (isupper(a[i]))
+		if (isupper(a[i]))//isupper() ham kiem tra ki tu co phai la ki tu hoa
 			demhoa++;
-		if (islower(a[i]))
+		if (islower(a[i]))//islower() ham kiem tra ki tu co phai la ki tu thuong
 			demthuong++;
 	}
-	printf("So ki tu thuong: %d", demthuong);
+	printf("So ki tu thuong: %d\n", demthuong);
 	printf("So ki tu hoa: %d", demhoa);
 
 }
 void bai3() {
 	int m;
 	int sotien;
-	printf("Nhap so m da di:");
-	scanf("%d", &m);
+	do {
+		printf("Nhap so m da di:");
+		scanf("%d", &m);
+	} while (m<=0);
+	
 	if (m == 1000||m<1000)
 		sotien = 10000;
 	if (m > 1000 && m <= 30000)
@@ -66,10 +96,12 @@ void bai3() {
 
 }
 void bai4() {
-	int i, j;
-	printf("Nhap chieu cao cho tam giac can:");
-	int h;
-	scanf("%d", &h);
+	int i, j,h;
+	do {
+		printf("Nhap chieu cao cho tam giac can:");
+		scanf("%d", &h);
+	} while (h<=0);
+	
 	for (i = 1; i <= h; i++)
 	{
 		for (j = 1; j <= h - i; j++)
@@ -79,7 +111,9 @@ void bai4() {
 		printf("\n");
 	}
 }
-int kiemtranamnhuan(int nam) {
+int kiemtranamnhuan(int nam) {//ham kiem tra nam nhuan(theo lich am). neu nam chia cho 19 du ra 0,3,6,9,11,14,17 thi nam do la nam nhuan. 
+	//ham tra ve 1: nam do la nam nhuan
+	//ham tra ve 0: nam do khong phai la nam nhuan
 	if (nam % 19 == 0 || nam % 19 == 3 || nam % 19 == 6 || nam % 19 == 9 || nam % 19 == 11 || nam % 19 == 14 || nam % 19 == 17)
 		return 1;
 	else
@@ -143,11 +177,11 @@ void bai5() {
 
 void bai6() {
 	
-	char a[100];
+	char a[1000];
 	
 	getchar();
 	printf("Nhap vao 1 xau ki tu:\n");
-	fgets(a, 100, stdin);
+	fgets(a, 1000, stdin);
 	while (a[0] == ' ') {     //xoa khoang trang dau
 		for (int i = 0; i < strlen(a); i++)
 		{
@@ -163,17 +197,18 @@ void bai6() {
 		i++;
 	} 
 	int k = 0,l;
-	while (k < strlen(a)) {// xoa khoang trang truoc dau phay
-		if (a[k] == ' '&&a[k + 1] == ',')
+	while (k < strlen(a)) {// xoa khoang trang truoc dau phay hoac dau cham
+		if (a[k] == ' '&&a[k + 1] == ','|| a[k] == ' '&&a[k + 1] == '.')
 			for (l= k; l < strlen(a); l++) {
 				a[l] = a[l + 1];
 				a[l + 1] = ' ';
 			}
 		k++;
 	}
+	
 	for (int z = 0; z < strlen(a); z++)
 	{
-		if (a[z] == '.'&&a[z + 1] == '.'|| a[z] == ','&&a[z + 1] == ',')//xoa 2 dau cham,dau phay,dau cach canh nhau
+		if (a[z] == '.'&&a[z + 1] == '.'|| a[z] == ','&&a[z + 1] == ',')//xoa 2 dau cham,dau phay canh nhau
 			for (int t = z; t < strlen(a) ; t++)
 			{
 				a[t] = a[t + 1];
@@ -181,14 +216,30 @@ void bai6() {
 	}
 	for (int z = 0; z < strlen(a); z++)
 	{
-		if (a[z] == ' '&&a[z + 1] == ' ' )//xoa 2 dau cach canh nhau
+		if (a[z] == ','&&a[z + 1] == '.' )//xoa dau cham,dau phay canh nhau
+			for (int t = z; t < strlen(a); t++)
+			{
+				a[t] = a[t + 1];
+			}
+	}
+	for (int z = 0; z < strlen(a); z++)
+	{
+		if (a[z] == '.'&&a[z + 1] == ',')//xoa dau cham,dau phay canh nhau
+			for (int t = z; t < strlen(a); t++)
+			{
+				a[t] = a[t + 1];
+			}
+	}
+	for (int z = 0; z < strlen(a); z++)
+	{
+		if (a[z] == ' '&&a[z + 1] == ' ')//xoa 2 dau cach canh nhau
 			for (int t = z; t < strlen(a); t++)
 			{
 				a[t] = a[t + 1];
 			}
 	}
 	int n = strlen(a);
-	for (int b = 0; b < n; b++)
+	for (int b = 0; b < n; b++)// sau dau phay la dau cach
 	{
 		if (a[b] == ',') {
 			for (int e = n-1; e >= b+1; e--)
@@ -197,8 +248,29 @@ void bai6() {
 			}
 			a[b+1] = ' ';
 			n++;
-			break;
+			continue;
 		}
+	}
+	for (int b = 0; b < n; b++)// sau dau cham la dau cach
+	{
+		if (a[b] == '.') {
+			for (int e = n - 1; e >= b + 1; e--)
+			{
+				a[e] = a[e - 1];
+			}
+			a[b + 1] = ' ';
+			n++;
+			continue;
+		}
+	}
+	
+	for (int z = 0; z < strlen(a); z++)
+	{
+		if (a[z] == ' '&&a[z + 1] == ' ')//xoa 2 dau cach canh nhau
+			for (int t = z; t < strlen(a); t++)
+			{
+				a[t] = a[t + 1];
+			}
 	}
 	for (int kk = 0; kk < strlen(a); kk++) //hien thi
 	{
@@ -209,10 +281,13 @@ void bai6() {
 
 void bai7() {
 	int a, b,i;
-	printf("Nhap so nguyen thu nhat:");
-	scanf("%d",&a);
-	printf("Nhap so nguyen thu hai:");
-	scanf("%d", &b);
+	do {
+		printf("Nhap so nguyen thu nhat:");
+		scanf("%d", &a);
+		printf("Nhap so nguyen thu hai:");
+		scanf("%d", &b);
+	} while (a<=0||b<=0);
+	
 	if(a<b)
 		for ( i = b; i >0; i--)
 		{
@@ -245,9 +320,10 @@ void bai7() {
 
 void bai8() {
 	int i;
-	printf("Nhap vao xau ki tu:");
 	char s[100];
-	scanf("%s", s);
+	getchar();
+	printf("Nhap vao xau ki tu:");
+	fgets(s,100,stdin);
 	for (i = strlen(s)-1; i >= 0; i--)
 		putchar(s[i]);
 }
